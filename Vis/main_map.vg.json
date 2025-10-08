@@ -1,0 +1,87 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "Victoria's Natural Population Increase by LGA",
+    "subtitle": "Use the slider to select a year. A blue color indicates growth, Red indicates decline."
+  },
+  "width": 700,
+  "height": 600,
+  "projection": {"type": "mercator"},
+  "params": [
+    {
+      "name": "year_slider",
+      "value": 2023,
+      "bind": {"input": "range", "min": 2011, "max": 2023, "step": 1, "name": "Year: "}
+    }
+  ],
+  "layer": [
+    {
+      "data": {
+        "url": "LGA_POLYGON.json",
+        "format": {"type": "topojson", "feature": "LGA_POLYGON"}
+      },
+      "mark": {"type": "geoshape", "fill": "#f5f5f5", "stroke": "white", "strokeWidth": 0.5}
+    },
+    {
+      "data": {"url": "vic_birth_death.csv"},
+      "transform": [
+        {"filter": "toNumber(datum.Year) == year_slider"},
+        {"calculate": "toNumber(datum.ABSLGACODE)", "as": "code_num"},
+        {"calculate": "toString(datum.ABSLGACODE)", "as": "code_str"},
+        {
+          "lookup": "code_num",
+          "from": {
+            "data": {
+              "url": "LGA_POLYGON.json",
+              "format": {"type": "topojson", "feature": "LGA_POLYGON"}
+            },
+            "key": "properties.ABSLGACODE"
+          },
+          "as": "geo_num"
+        },
+        {
+          "lookup": "code_str",
+          "from": {
+            "data": {
+              "url": "LGA_POLYGON.json",
+              "format": {"type": "topojson", "feature": "LGA_POLYGON"}
+            },
+            "key": "properties.ABSLGACODE"
+          },
+          "as": "geo_str"
+        },
+        {"calculate": "isValid(datum.geo_num) ? datum.geo_num : datum.geo_str", "as": "geo"},
+        {"filter": "isValid(datum.geo)"},
+        {
+          "calculate": "datum['Natural Increases'] <= -100 ? 'Decline (<-100)' : datum['Natural Increases'] < 0 ? 'Decline (-99 to -1)' : datum['Natural Increases'] <= 100 ? 'Growth (0 to 100)' : 'Strong Growth (>100)'",
+          "as": "change_category"
+        }
+      ],
+      "mark": {"type": "geoshape", "stroke": "white", "strokeWidth": 1},
+      "encoding": {
+        "shape": {"field": "geo", "type": "geojson"},
+        "color": {
+          "field": "change_category",
+          "type": "ordinal",
+          "scale": {
+            "domain": [
+              "Strong Growth (>100)",
+              "Growth (0 to 100)",
+              "Decline (-99 to -1)",
+              "Decline (<-100)"
+            ],
+            "range": ["#2166ac", "#67a9cf", "#ef8a62", "#b2182b"]
+          },
+          "legend": {"orient": "top-right", "title": "Natural Increase (Births - Deaths)"}
+        },
+        "tooltip": [
+          {"field": "LGA", "type": "nominal", "title": "LGA"},
+          {"field": "Year", "type": "ordinal"},
+          {"field": "Births", "type": "quantitative"},
+          {"field": "Deaths", "type": "quantitative"},
+          {"field": "Natural Increases", "type": "quantitative", "title": "Natural Increase"}
+        ]
+      }
+    }
+  ]
+}
