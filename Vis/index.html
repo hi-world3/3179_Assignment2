@@ -2,19 +2,90 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>FIT3179 Week 10 Homework</title>
+    <title>Victoria's Population Dynamics</title>
     <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
     <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
     <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+    <style>
+      body { 
+        font-family: sans-serif; 
+        max-width: 800px; 
+        margin: auto; 
+        padding: 20px;
+        line-height: 1.6;
+      }
+      hr { 
+        margin: 50px 0; 
+        border: 1px solid #eee;
+      }
+      h1, h2, h3 {
+        text-align: center;
+      }
+      .analysis-text {
+        text-align: left;
+        font-size: 0.9em;
+        color: #333;
+      }
+    </style>
 </head>
 <body>
-    <div id="vis_map"></div>
+    <h1>Victoria's Population Pulse: A Story of Births and Deaths</h1>
+    <p>This visualisation explores how population changes due to births and deaths have manifested across Victoria's Local Government Areas (LGAs) from 2011 to 2023. We will examine which areas are growing naturally, which are aging, and explore the potential reasons why through the data.</p>
     
-    <div id="vis_scatterplot"></div>
+    <hr>
+
+    <h2>Where is the Population Growing or Declining?</h2>
+    <p>The map below illustrates the 'natural increase' (total births minus total deaths) for each LGA in Victoria. Darker blue areas indicate natural growth where births outnumber deaths, while darker red signifies the opposite. Use the slider to explore these changes over the past decade.</p>
+    <div id="vis_map"></div>
+
+    <div class="analysis-text">
+        <h3>Key Observations from the Data</h3>
+        
+        <h4>The 2023 Snapshot: A City Divided</h4>
+        <p>
+            In 2023, a clear pattern emerges across Greater Melbourne. The metropolitan fringe areas, particularly in the <strong>fast-growing western and northern corridors</strong>, exhibit a high natural increase. This is likely linked to housing affordability, which attracts younger individuals and families to these areas, subsequently leading to a higher number of births.
+        </p>
+        <p>
+            In contrast, many established <strong>eastern suburbs are experiencing a natural decrease</strong>. This trend may correlate with the significant rise in house prices in these desirable areas, potentially making them less accessible for young, growing families.
+        </p>
+
+        <h4>A Decade of Change: Comparing 2013 to 2023</h4>
+        <p>
+            Comparing the 2023 map to a decade prior reveals a significant demographic shift across the state. Many regional areas in the east, west, and north of Victoria that showed natural growth (blue) in 2013 have now shifted to a natural decrease (red).
+        </p>
+        <p>
+            This trend is particularly evident in the <strong>Mornington Peninsula</strong>. In 2013, it recorded 1,513 births and 1,294 deaths, resulting in a natural increase. By 2023, the number of births had fallen by approximately <strong>15.1%</strong> to 1,284, while the number of deaths rose by about <strong>30.4%</strong> to 1,687, causing a significant natural decrease.
+        </p>
+        <p>
+            Notably, almost no regions that were in a state of natural decrease (red) in 2013 have reversed this trend to become areas of natural growth (blue) by 2023. Furthermore, while the Melbourne metropolitan area was predominantly dark blue in 2013 with no areas of strong decline, the 2023 map shows the <strong>emergence of dark red areas</strong>, indicating that population aging is now a factor even within the metro boundary.
+        </p>
+    </div>
+    
+    <hr>
+
+    <h2>Why Do These Differences Occur?</h2>
+    <p>This scatter plot explores the relationship between an LGA's 'Median Age' and its 'Number of Births' for the year 2023. The size of each dot represents the area's relative socio-economic advantage (a larger dot means less disadvantage).</p>
+    <div id="vis_scatter"></div>
+
+    <hr>
+
+    <h2>Which Regions Stand Out the Most?</h2>
+    <p>This chart specifically highlights the top 10 LGAs with the highest number of births and deaths, respectively, for 2023. Use the dropdown menu to switch between the two categories and compare.</p>
+    <div id="vis_top10_bar"></div>
+
+    <hr>
+
+    <h2>A Dramatic Contrast in Population Structure</h2>
+    <p>The fundamental driver of population change lies in the 'population structure'. The chart below compares the age distribution for a representative growth city (Casey) and an established, aging city (Mornington Peninsula), based on 2021 census data. Observe how the shapes of their population pyramids differ.</p>
+    <div id="vis_pyramid"></div>
 
     <script>
+      // Embed the Vega-Lite charts into their respective divs
       vegaEmbed('#vis_map', 'main_map.vg.json');
-      vegaEmbed('#vis_scatterplot', 'scatter.vg.json');
+      vegaEmbed('#vis_scatter', 'scatter.vg.json');
+      vegaEmbed('#vis_top10_bar', 'top10_bar.vg.json');
+      vegaEmbed('#vis_pyramid', 'pyramid.vg.json');
     </script>
+
 </body>
 </html>

@@ -1,0 +1,48 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": "Population Structure: Casey vs Mornington Peninsula(2023)",
+  "data": {"url": "Casey_Mornington.csv"},
+  "transform": [
+    {
+      "filter": {"field": "LGA", "oneOf": ["Casey", "Mornington Peninsula"]}
+    },
+    {
+      "fold": ["0-14", "15-29", "30-44", "45-59", "60-74", "75-84", "85+"],
+      "as": ["Age_Group", "Population"]
+    },
+    {
+      "calculate": "datum.LGA == 'Casey' ? datum.Population : -datum.Population",
+      "as": "plot_population"
+    }
+  ],
+  "mark": "bar",
+  "encoding": {
+    "y": {
+      "field": "Age_Group",
+      "type": "ordinal",
+      "axis": {"title": "Age Group", "grid": false},
+      "sort": ["85+", "75-84", "60-74", "45-59", "30-44", "15-29", "0-14"]
+    },
+    "x": {
+      "field": "plot_population",
+      "type": "quantitative",
+      "title": "Population",
+      "axis": {"labelExpr": "abs(datum.value)", "format": "s", "grid": false},
+      "scale": {"domain": [-50000, 50000]}
+    },
+    "color": {
+      "field": "LGA",
+      "type": "nominal",
+      "scale": {"range": ["#67a9cf", "#ef8a62"]},
+      "legend": {"orient": "right", "title": null}
+    },
+    "tooltip": [
+      {"field": "LGA", "type": "nominal"},
+      {"field": "Age_Group", "type": "ordinal"},
+      {"field": "Population", "type": "quantitative", "format": ","}
+    ]
+  },
+  "config": {
+    "view": {"stroke": null}, "axis":{"grid": false}
+  }
+}

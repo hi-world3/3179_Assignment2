@@ -1,0 +1,81 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": "Top 10 LGAs by Selected Category (2023)",
+  "width": "420",
+  "data": {
+    "url": "vic_birth_death.csv",
+    "format": {
+      "parse": {
+        "Births": "number",
+        "Deaths": "number",
+        "Year": "number"
+      }
+    }
+  },
+  "params": [
+    {
+      "name": "category_select",
+      "value": "Births",
+      "bind": {
+        "input": "select",
+        "options": ["Births", "Deaths"],
+        "name": "Select Category: "
+      }
+    }
+  ],
+  "transform": [
+    {
+      "filter": "datum.Year == 2023"
+    },
+    {
+      "calculate": "datum[category_select]",
+      "as": "selectedValue"
+    },
+    {
+      "window": [
+        {
+          "op": "rank",
+          "as": "rank"
+        }
+      ],
+      "sort": [
+        {
+          "field": "selectedValue",
+          "order": "descending"
+        }
+      ]
+    },
+    {
+      "filter": "datum.rank <= 10"
+    }
+  ],
+  "mark": "bar",
+  "encoding": {
+    "y": {
+      "field": "LGA",
+      "type": "nominal",
+      "sort": "-x",
+      "title": null
+    },
+    "x": {
+      "field": "selectedValue",
+      "type": "quantitative",
+      "title": {
+        "expr": "'Number of ' + category_select"
+      }
+    },
+    "tooltip": [
+      {
+        "field": "LGA",
+        "type": "nominal"
+      },
+      {
+        "field": "selectedValue",
+        "type": "quantitative",
+        "title": {
+          "expr": "category_select"
+        }
+      }
+    ]
+  }
+}

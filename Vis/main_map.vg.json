@@ -4,7 +4,7 @@
     "text": "Victoria's Natural Population Increase by LGA",
     "subtitle": "Use the slider to select a year. A blue color indicates growth, Red indicates decline."
   },
-  "width": "720",
+  "width": 720,
   "height": 600,
   "projection": {"type": "mercator"},
   "params": [
@@ -51,14 +51,17 @@
           "as": "geo"
         },
         {"filter": "isValid(datum.geo)"},
+        { "calculate": "toNumber(datum.geo.properties.ABSLGACODE)", "as": "code_num" },
         {
           "calculate": "datum['Natural Increases'] <= -100 ? 'Decline (<-100)' : datum['Natural Increases'] < 0 ? 'Decline (-99 to -1)' : datum['Natural Increases'] <= 100 ? 'Growth (0 to 100)' : 'Strong Growth (>100)'",
           "as": "change_category"
         }
       ],
       "mark": {"type": "geoshape", "stroke": "white", "strokeWidth": 1},
+
       "encoding": {
         "shape": {"field": "geo", "type": "geojson"},
+
         "color": {
           "field": "change_category",
           "type": "ordinal",
@@ -73,6 +76,15 @@
           },
           "legend": {"orient": "right", "title": "Natural Increase (Births - Deaths)"}
         },
+
+        "stroke": {
+          "value": "white"
+        },
+
+        "strokeWidth": {
+          "value": 1
+        },
+
         "tooltip": [
           {"field": "LGA", "type": "nominal", "title": "LGA"},
           {"field": "Year", "type": "ordinal"},
