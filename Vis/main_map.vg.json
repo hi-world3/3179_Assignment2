@@ -9,7 +9,7 @@
   "projection": {"type": "mercator"},
   "params": [
     {
-      "name": "year_ladio",
+      "name": "year_slider",
       "value": 2023,
       "bind": {
         "input": "radio",
