@@ -2,7 +2,7 @@
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "title": {
     "text": "Median Age vs. Number of Births by LGA",
-    "subtitle": "Victoria, 2023. Dot size represents socio-economic score."
+    "subtitle": "Victoria, 2023. Dot size represents socio-economic score (IRSD; higher = more advantaged)."
   },
   "width": 400,
   "height": 300,
@@ -10,32 +10,28 @@
   "transform": [
     { "filter": "isValid(datum.ISRDSCORE)" }
   ],
-  "layer": [
-    {
-      "mark": { "type": "point", "filled": true, "opacity": 0.6, "color": "steelblue" },
-      "encoding": {
-        "x": { "field": "MedianAge", "type": "quantitative", "title": "Median Age", "scale": { "zero": false } },
-        "y": { "field": "Births", "type": "quantitative", "title": "Number of Births", "scale": { "zero": false } },
-        "size": {
-          "field": "ISRDSCORE", "type": "quantitative", "title": "Socio-economic Score",
-          "scale": { "range": [20, 800], "domain": [800, 1100] }
-        },
-        "tooltip": [
-          { "field": "LGA", "type": "nominal" },
-          { "field": "MedianAge", "type": "quantitative" },
-          { "field": "Births", "type": "quantitative" },
-          { "field": "ISRDSCORE", "type": "quantitative" }
-        ]
-      }
+  "mark": {
+    "type": "point",
+    "filled": true,
+    "opacity": 0.8,
+    "stroke": "#333",
+    "strokeWidth": 0.6,
+    "color": "coral"        
+  },
+  "encoding": {
+    "x": { "field": "MedianAge", "type": "quantitative", "title": "Median Age", "scale": { "zero": false } },
+    "y": { "field": "Births", "type": "quantitative", "title": "Number of Births", "scale": { "zero": false } },
+    "size": {
+      "field": "ISRDSCORE",
+      "type": "quantitative",
+      "title": "IRSD (higher = advantaged)",
+      "scale": { "type": "sqrt", "range": [10, 1800], "domain": [850, 1050] }
     },
-    {
-      "transform": [ { "filter": "datum.LGA == 'Casey'" } ],
-      "mark": { "type": "text", "align": "left", "baseline": "middle", "dx": 10, "fontSize": 12 },
-      "encoding": {
-        "x": { "field": "MedianAge", "type": "quantitative" },
-        "y": { "field": "Births", "type": "quantitative" },
-        "text": { "value": "Highest number of births" }
-      }
-    }
-  ]
+    "tooltip": [
+      { "field": "LGA", "type": "nominal" },
+      { "field": "MedianAge", "type": "quantitative" },
+      { "field": "Births", "type": "quantitative" },
+      { "field": "ISRDSCORE", "type": "quantitative" }
+    ]
+  }
 }

@@ -64,6 +64,10 @@
         "expr": "'Number of ' + category_select"
       }
     },
+    "color": {
+      "condition": { "test": "category_select === 'Births'", "value": "#2166ac" },
+      "value": "#b2182b"
+    },
     "tooltip": [
       {
         "field": "LGA",
