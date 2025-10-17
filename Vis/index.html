@@ -9,7 +9,7 @@
     <style>
       body { 
         font-family: sans-serif; 
-        max-width: 1200px; 
+        max-width: 1080px; 
         margin: auto; 
         padding: 20px;
         line-height: 1.6;
@@ -18,30 +18,72 @@
         margin: 50px 0; 
         border: 1px solid #eee;
       }
-      h1, h2, h3, p {
+      h1, h2, p {
         text-align: center;
       }
+    
+      h3 {
+        text-align: center; 
+        margin-top: 15px; 
+      }
+      
       #vis_map, #vis_scatter, #vis_top10_bar, #vis_pyramid {
         display: flex;
         justify-content: center;
+        width: 100%;
+        margin: 0 auto;
       }
+      
       .analysis-text {
         text-align: center;
         font-size: 0.9em;
         color: #333;
-        margin-top: 20px;
+        margin: 40px auto; 
+        padding: 20px; 
+        background-color: #f7f7f7; 
+        border-radius: 8px; 
+        max-width: 800px; 
+        border: 1px solid #e0e0e0; 
       }
+
+      .analysis-text h3 {
+          margin-top: 0;
+          color: #008080; 
+          font-style: italic;
+      }
+      
       .chart-container {
         display: flex;
-        align-items: center; 
+        align-items: flex-start; 
         gap: 30px; 
+        width: 100%; 
+        margin: 0 auto;
       }
       .vis-container {
-        flex: 2; 
+        flex: 2;
+        display: flex;
+        justify-content: center;
       }
+      
       .text-container {
         flex: 1;
-        text-align: center;
+        padding: 20px; 
+        background-color: #f7f7f7; 
+        border-radius: 8px; 
+        text-align: left; 
+        font-size: 0.9em;
+        border: 1px solid #e0e0e0; 
+      }
+      .text-container h3 {
+          text-align: left; 
+          margin-top: 0;
+          margin-bottom: 10px;
+          color: #008080; 
+          font-style: italic;
+      }
+      .text-container p {
+          text-align: left; 
+          margin: 0;
       }
     </style>
 </head>
@@ -56,7 +98,7 @@
     <div id="vis_map"></div>
 
     <div class="analysis-text">
-        <h3>Key Observations from the Data</h3>
+        <h3>Key Observations and Summaries</h3>
         <p>In 2023, a clear pattern emerges across Greater Melbourne. The metropolitan fringe areas, particularly in the <strong>fast-growing western and northern corridors</strong>, exhibit a high natural increase, likely linked to housing affordability. In contrast, many established <strong>eastern suburbs are experiencing a natural decrease</strong>.</p>
         <p>Comparing 2023 to a decade prior reveals a significant demographic shift across the state. Many regional areas that showed natural growth in 2013 have now shifted to a natural decrease, a trend particularly evident in the <strong>Mornington Peninsula</strong>.</p>
     </div>
@@ -70,6 +112,7 @@
     <div class="chart-container">
         <div id="vis_scatter" class="vis-container"></div>
         <div class="text-container">
+            <h3>Key Observations and Summaries</h3>
             <p>
                 Overall, the chart shows a clear pattern: LGAs with lower median age have more births, aligning with the map’s high-growth “blue” areas as predominantly younger communities. Dot size adds nuance—LGAs with the most births (e.g., Casey, Hume) aren’t necessarily the most socio-economically advantaged, indicating that rapid birth-driven growth is concentrated in younger, developing outer-suburban corridors rather than the most affluent areas.
             </p>
@@ -85,7 +128,7 @@
     <hr>
 
     <h2>A Dramatic Contrast in Population Structure</h2>
-    <p>The chart compares the 2023 age distribution for a high-birth area (Casey) and an area with more deaths (Mornington Peninsula).</p>
+    <p>The chart compares the 2023 age distribution for a high-birth area (Casey) and an an area with more deaths (Mornington Peninsula).</p>
     <div id="vis_pyramid"></div>
 
     <script>

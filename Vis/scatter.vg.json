@@ -10,14 +10,8 @@
   "transform": [
     { "filter": "isValid(datum.ISRDSCORE)" }
   ],
-  "mark": {
-    "type": "point",
-    "filled": true,
-    "opacity": 0.8,
-    "stroke": "#333",
-    "strokeWidth": 0.6,
-    "color": "coral"        
-  },
+  "mark": 
+  {"type": "point","filled": true,"opacity": 0.8,"stroke": "#333","strokeWidth": 0.6, "color": "coral"},
   "encoding": {
     "x": { "field": "MedianAge", "type": "quantitative", "title": "Median Age", "scale": { "zero": false } },
     "y": { "field": "Births", "type": "quantitative", "title": "Number of Births", "scale": { "zero": false } },

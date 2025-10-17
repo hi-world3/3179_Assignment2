@@ -7,80 +7,64 @@
   "width": 720,
   "height": 600,
   "projection": {"type": "mercator"},
+  "data": {
+    "url": "vic_birth_death.csv",
+    "format": {
+      "parse": {
+        "Births": "number",
+        "Deaths": "number",
+        "Year": "number"
+      }
+    }
+  },
   "params": [
     {
       "name": "year_slider",
       "value": 2023,
       "bind": {
         "input": "radio",
-        "options": [2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],
+        "options": [2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023],
         "name": "Year: "
       }
     }
   ],
-  "layer": [
+  "transform": [
+    { "filter": "toNumber(datum.Year) == year_slider" },
     {
-      "data": {
-        "url": "LGA_POLYGON.json",
-        "format": {"type": "topojson", "feature": "LGA_POLYGON"}
+      "lookup": "ABSLGACODE",
+      "from": {
+        "data": {
+          "url": "LGA_POLYGON.json",
+          "format": {"type": "topojson", "feature": "LGA_POLYGON"}
+        },
+        "key": "properties.ABSLGACODE"
       },
-      "mark": {"type": "geoshape", "fill": "#eee", "stroke": "white", "strokeWidth": 0.5}
+      "as": "geo"
     },
+    { "filter": "isValid(datum.geo)" },
     {
-      "data": { "graticule": { "step": [2, 2], "extent": [[141, -39.5], [150, -34.0]] } },
-      "mark": {
-        "type": "geoshape",
-        "fill": null,
-        "stroke": "#b3b3b3",
-        "strokeWidth": 1.2,
-        "strokeDash": [2, 2],
-        "opacity": 1
-      }
-    },
-    {
-      "data": {"url": "vic_birth_death.csv"},
-      "transform": [
-        { "filter": "toNumber(datum.Year) == year_slider" },
-        {
-          "lookup": "ABSLGACODE",
-          "from": {
-            "data": {
-              "url": "LGA_POLYGON.json",
-              "format": {"type": "topojson", "feature": "LGA_POLYGON"}
-            },
-            "key": "properties.ABSLGACODE"
-          },
-          "as": "geo"
-        },
-        { "filter": "isValid(datum.geo)" },
-        { "calculate": "toNumber(datum.geo.properties.ABSLGACODE)", "as": "code_num" },
-        {
-          "calculate": "datum['Natural Increases'] <= -100 ? 'Decline (<-100)' : datum['Natural Increases'] < 0 ? 'Decline (-99 to -1)' : datum['Natural Increases'] <= 100 ? 'Growth (0 to 100)' : 'Strong Growth (>100)'",
-          "as": "change_category"
-        }
-      ],
-      "mark": {"type": "geoshape", "stroke": "white", "strokeWidth": 1},
-      "encoding": {
-        "shape": {"field": "geo", "type": "geojson"},
-        "color": {
-          "field": "change_category",
-          "type": "ordinal",
-          "scale": {
-            "domain": ["Strong Growth (>100)","Growth (0 to 100)","Decline (-99 to -1)","Decline (<-100)"],
-            "range": ["#2166ac","#67a9cf","#ef8a62","#b2182b"]
-          },
-          "legend": {"orient": "right", "title": "Natural Increase (Births - Deaths)"}
-        },
-        "stroke": {"value": "white"},
-        "strokeWidth": {"value": 1},
-        "tooltip": [
-          {"field": "LGA","type": "nominal","title": "LGA"},
-          {"field": "Year","type": "ordinal"},
-          {"field": "Births","type": "quantitative"},
-          {"field": "Deaths","type": "quantitative"},
-          {"field": "Natural Increases","type": "quantitative","title": "Natural Increase"}
-        ]
-      }
+      "calculate": "datum['Natural Increases'] <= -100 ? 'Decline (<-100)' : datum['Natural Increases'] < 0 ? 'Decline (-99 to -1)' : datum['Natural Increases'] <= 100 ? 'Growth (0 to 100)' : 'Strong Growth (>100)'",
+      "as": "change_category"
     }
-  ]
+  ],
+  "mark": {"type": "geoshape", "stroke": "white", "strokeWidth": 1},
+  "encoding": {
+    "shape": {"field": "geo", "type": "geojson"},
+    "color": {
+      "field": "change_category",
+      "type": "ordinal",
+      "scale": {
+        "domain": ["Strong Growth (>100)", "Growth (0 to 100)", "Decline (-99 to -1)", "Decline (<-100)"],
+        "range": ["#2166ac", "#67a9cf", "#ef8a62", "#b2182b"]
+      },
+      "legend": {"orient": "right", "title": "Natural Increase (Births - Deaths)"}
+    },
+    "tooltip": [
+      {"field": "LGA", "type": "nominal", "title": "LGA"},
+      {"field": "Year", "type": "ordinal"},
+      {"field": "Births", "type": "quantitative"},
+      {"field": "Deaths", "type": "quantitative"},
+      {"field": "Natural Increases", "type": "quantitative", "title": "Natural Increase"}
+    ]
+  }
 }
