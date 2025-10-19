@@ -1,0 +1,87 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": "Overall Birth and Death Trends in Victoria (2011-2023)",
+  "width": "420",
+  "data": {
+    "url": "victoria_yearly_births_deaths_totals.csv"
+  },
+  "layer":[ 
+    {
+        "transform": [
+            {
+            "fold": ["Births", "Deaths"],
+            "as": ["Category", "Total"]
+            }
+        ],
+        "mark": {
+            "type": "line",
+            "point": {
+            "filled": true,
+            "size": 80
+            }
+        },
+        "encoding":
+        {
+            "x": {
+            "field": "Year",
+            "type": "ordinal",
+            "title": "Year"
+            },
+            "y": {
+            "field": "Total",
+            "type": "quantitative",
+            "title": "Total Number",
+            "scale": {"zero": false}
+            },
+            "color": {
+            "field": "Category",
+            "type": "nominal",
+            "title": "Category",
+            "scale": {
+                "domain": ["Births", "Deaths"],
+                "range": ["#67a9cf", "#ef8a62"]
+             }
+            },
+            "tooltip": [
+            {"field": "Year", "type": "ordinal"},
+            {"field": "Category", "type": "nominal"},
+            {"field": "Total", "type": "quantitative", "format": ","}
+            ]
+        }
+    },
+    {
+      "data": {
+        "values": [
+          {"Year": "2020"}, {"Year": "2016"}
+        ]
+      },
+      "mark": {
+        "type": "rule",
+        "strokeDash": [3, 3],
+        "strokeWidth": 1.5,
+        "color": "gray"
+      },
+      "encoding": {
+        "x": {"field": "Year", "type": "ordinal"}
+      }
+    },
+    {
+        "data": {
+        "values": [
+          {"Year": "2020", "Total": 40000, "note": "Sharp increase in deaths begins"},
+          {"Year": "2016", "Total": 84000, "note": "Peak year for births"}
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "left",        
+        "fontStyle": "italic"
+      },
+      "encoding": {
+        "x": {"field": "Year", "type": "ordinal"},
+        "y": {"field": "Total", "type": "quantitative"},
+        "text": {"field": "note", "type": "nominal"}
+      }
+    }
+  ]
+}

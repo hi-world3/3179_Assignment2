@@ -1,11 +1,9 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "title": {
-    "text": "Median Age vs. Number of Births by LGA",
-    "subtitle": "Victoria, 2023. Dot size represents socio-economic score (IRSD; higher = more advantaged)."
-  },
-  "width": 400,
-  "height": 300,
+    "text": "Median Age vs. Number of Births by LGA"  },
+  "width": 420,
+  "height": 200,
   "data": { "url": "vic_birth_mediana.csv" },
   "transform": [
     { "filter": "isValid(datum.ISRDSCORE)" }

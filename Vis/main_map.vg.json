@@ -1,11 +1,10 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "title": {
-    "text": "Victoria's Natural Population Increase by LGA",
-    "subtitle": "Use the buttons to select a year. A blue color indicates growth, Red indicates decline."
+    "text": "Victoria's Natural Population Increase by LGA"
   },
-  "width": 720,
-  "height": 600,
+  "width": 620,
+  "height": 500,
   "projection": {"type": "mercator"},
   "data": {
     "url": "vic_birth_death.csv",
@@ -19,7 +18,7 @@
   },
   "params": [
     {
-      "name": "year_slider",
+      "name": "year_radio",
       "value": 2023,
       "bind": {
         "input": "radio",
@@ -29,7 +28,7 @@
     }
   ],
   "transform": [
-    { "filter": "toNumber(datum.Year) == year_slider" },
+    { "filter": "toNumber(datum.Year) == year_radio" },
     {
       "lookup": "ABSLGACODE",
       "from": {

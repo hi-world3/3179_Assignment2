@@ -1,6 +1,8 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "title": "Population Structure: Casey vs Mornington Peninsula(2023)",
+  "width": 320,
+  "height":200,
   "data": {"url": "Casey_Mornington.csv"},
   "transform": [
     {

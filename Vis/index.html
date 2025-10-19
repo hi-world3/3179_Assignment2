@@ -2,107 +2,50 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Victoria's Population Dynamics</title>
     <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
     <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
     <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
-    <style>
-      body { 
-        font-family: sans-serif; 
-        max-width: 1080px; 
-        margin: auto; 
-        padding: 20px;
-        line-height: 1.6;
-      }
-      hr { 
-        margin: 50px 0; 
-        border: 1px solid #eee;
-      }
-      h1, h2, p {
-        text-align: center;
-      }
-    
-      h3 {
-        text-align: center; 
-        margin-top: 15px; 
-      }
-      
-      #vis_map, #vis_scatter, #vis_top10_bar, #vis_pyramid {
-        display: flex;
-        justify-content: center;
-        width: 100%;
-        margin: 0 auto;
-      }
-      
-      .analysis-text {
-        text-align: center;
-        font-size: 0.9em;
-        color: #333;
-        margin: 40px auto; 
-        padding: 20px; 
-        background-color: #f7f7f7; 
-        border-radius: 8px; 
-        max-width: 800px; 
-        border: 1px solid #e0e0e0; 
-      }
-
-      .analysis-text h3 {
-          margin-top: 0;
-          color: #008080; 
-          font-style: italic;
-      }
-      
-      .chart-container {
-        display: flex;
-        align-items: flex-start; 
-        gap: 30px; 
-        width: 100%; 
-        margin: 0 auto;
-      }
-      .vis-container {
-        flex: 2;
-        display: flex;
-        justify-content: center;
-      }
-      
-      .text-container {
-        flex: 1;
-        padding: 20px; 
-        background-color: #f7f7f7; 
-        border-radius: 8px; 
-        text-align: left; 
-        font-size: 0.9em;
-        border: 1px solid #e0e0e0; 
-      }
-      .text-container h3 {
-          text-align: left; 
-          margin-top: 0;
-          margin-bottom: 10px;
-          color: #008080; 
-          font-style: italic;
-      }
-      .text-container p {
-          text-align: left; 
-          margin: 0;
-      }
-    </style>
+    <link rel = "stylesheet" href = "style.css">
 </head>
 <body>
-    <h1>Victoria's Population Pulse: A Story of Births and Deaths</h1>
-    <p>This visualisation explores how population changes due to births and deaths have manifested across Victoria's Local Government Areas (LGAs) from 2011 to 2023. We will examine which areas are growing naturally, which are aging, and explore the potential reasons why through the data.</p>
-    
+    <h1><strong>Victoria's Demographic Trends: A Visual Analysis (2011-2023)</strong></h1>
+    <p>This visualisation explores how population changes due to births and deaths have manifested across Victoria's 
+      Local Government Areas (LGAs) from 2011 to 2023.<br>We will examine which areas are growing naturally, which are aging, and
+      explore the potential reasons why through the data.</p>
+
     <hr>
 
     <h2>Where is the Population Growing or Declining?</h2>
-    <p>The map below illustrates the 'natural increase' for each LGA. Use the slider to explore the data for a specific year. Hover over an area to see detailed numbers.</p>
-    <div id="vis_map"></div>
-
+    <p>The map below illustrates the 'natural increase' for each LGA. Use the slider to explore the data for a specific year.
+      Hover over an area to see detailed numbers.</p><br>
+    <div id="map"></div>
+    <p class = "footnote">
+      <strong>Data Sources:</strong>
+      <br>
+      Victorian Government. (2024). <i>Vicmap Admin dataset series</i>. accessed from DataVic.<br>
+      Australian Bureau of Statistics (ABS). (2023). <i>Births, Australia</i> & <i>Deaths, Australia</i>.
+    </p>
     <div class="analysis-text">
         <h3>Key Observations and Summaries</h3>
-        <p>In 2023, a clear pattern emerges across Greater Melbourne. The metropolitan fringe areas, particularly in the <strong>fast-growing western and northern corridors</strong>, exhibit a high natural increase, likely linked to housing affordability. In contrast, many established <strong>eastern suburbs are experiencing a natural decrease</strong>.</p>
-        <p>Comparing 2023 to a decade prior reveals a significant demographic shift across the state. Many regional areas that showed natural growth in 2013 have now shifted to a natural decrease, a trend particularly evident in the <strong>Mornington Peninsula</strong>.</p>
+        <p>In 2023, a clear pattern emerges across Greater Melbourne. The metropolitan fringe areas, particularly in the 
+          <strong>fast-growing western and northern corridors</strong>, exhibit a high natural increase, likely linked to housing affordability. In contrast, many established <strong>eastern suburbs are experiencing a natural decrease</strong>.<br>
+        Comparing 2023 to a decade prior reveals a significant demographic shift across the state. Many regional areas that showed natural growth in 2013 have now shifted to a natural decrease, a trend particularly evident in the <strong>Mornington Peninsula</strong>.</p>
     </div>
-    
+
+    <hr>
+
+    <h2>What is the Overall trend for Victoria? (2011 to 2023)</h2>
+    <P>The line chart visualise the trends of total number of births and total number of Deaths accross in Victoria, from 2011 to 2013.</P>
+    <br><div id = "line"></div>
+    <p class = "footnote">
+      <strong>Data Sources:</strong>
+      <br>
+      Australian Bureau of Statistics (ABS). (2023). <i>Births, Australia</i> & <i>Deaths, Australia</i>. 
+    <div class ="analysis-text">
+        <h3>Key Observations and Summaries</h3>
+        <p>Victoria's births <strong>peaked around 2016 and have declined</strong> since, while deaths have consistently trended upwards. This rise in deaths accelerated sharply from 2020, a trend likely influenced by the<strong> COVID-19 pandemic </strong>, before a slight drop in 2023.</p>
+    </div>
+
     <hr>
 
     <h2>Why Do These Differences Occur?</h2>
@@ -110,32 +53,60 @@
       2023 scatter plot: Median age (x) vs. births (y) by LGA; dot size reflects socio-economic status via the 2021 Census IRSD—larger dots, where a higher score represents a higher advantage of socio-economic growth.
     </p>
     <div class="chart-container">
-        <div id="vis_scatter" class="vis-container"></div>
-        <div class="text-container">
-            <h3>Key Observations and Summaries</h3>
-            <p>
-                Overall, the chart shows a clear pattern: LGAs with lower median age have more births, aligning with the map’s high-growth “blue” areas as predominantly younger communities. Dot size adds nuance—LGAs with the most births (e.g., Casey, Hume) aren’t necessarily the most socio-economically advantaged, indicating that rapid birth-driven growth is concentrated in younger, developing outer-suburban corridors rather than the most affluent areas.
-            </p>
+      <div class="vis-container">
+      <div id="scatter"></div>
+        <p class="footnote">
+        <strong>Data Sources:</strong>
+        <br>
+        Based on data from Public Health Information Development Unit (PHIDU). (2024). <i>Social Health Atlases of Australia</i>.
+        <br>
+        Australian Bureau of Statistics (ABS).(2023) <i>Births, Australia</i>.
+        </p>
         </div>
+        <div class="text-container">
+        <h3>Key Observations and Summaries</h3>
+        <p>
+         Overall, the chart shows a clear pattern: <strong>LGAs with lower median age have more births</strong>, aligning with the map’s high-growth “blue” areas as predominantly younger communities. Dot size adds nuance—LGAs with the most births (e.g., Casey, Hume) aren’t necessarily the most socio-economically advantaged, indicating that<strong> rapid birth-driven growth is concentrated in younger, developing outer-suburban corridors</strong> rather than the most affluent areas.
+        </p>
+        </div>
+  </div>
+
+  <hr>
+
+  <h2>Where in Victoria has more births or deaths and why?</h2>
+  <p>
+    On the left, explore the bar charts change by viewing the Top 10 LGAs for Births or Deaths in 2023.
+  <br> 
+    On the right, the Population Pyramid shows the underlying demographic structure of two contrasting areas: <strong>Casey</strong>(high-birth) vs <strong>Mornington Peninsula</strong>(high death).
+  </p>
+    <div class="section-row">
+        <div class="chart-panel">
+            <div id="top10_bar"></div>
+        </div>
+        <div class="chart-panel">
+            <div id="pyramid"></div>
+        </div>
+    </div>
+    <div class="analysis-text">
+        <h3>Key Observations and Summaries</h3>
+        <p>There's a clear pattern to Victoria's population change. The Top 10 chart shows that births are highest in outer growth areas like Casey and Wyndham, while deaths are highest in established coastal areas like the Mornington Peninsula.
+          The population pyramid explains why this happens. Casey has a classic pyramid shape with a wide base of young people. In contrast, Mornington Peninsula is top-heavy, with a much larger older population. This shows that Victoria's population trends are simply a map of where the young and old communities live.</p>
     </div>
 
     <hr>
 
-    <h2>Which Regions Stand Out the Most?</h2>
-    <p>Top 10 LGAs by births or deaths in 2023. Use the dropdown to switch.</p>
-    <div id="vis_top10_bar"></div>
-
-    <hr>
-
-    <h2>A Dramatic Contrast in Population Structure</h2>
-    <p>The chart compares the 2023 age distribution for a high-birth area (Casey) and an an area with more deaths (Mornington Peninsula).</p>
-    <div id="vis_pyramid"></div>
+    <footer>
+      <p>
+        This visualisation was created by Jeongpyo Hong (Student ID: 33578753) for FIT3179, 19th October 2025.
+      </p>
+    </footer>
 
     <script>
-      vegaEmbed('#vis_map', 'main_map.vg.json');
-      vegaEmbed('#vis_scatter', 'scatter.vg.json');
-      vegaEmbed('#vis_top10_bar', 'top10_bar.vg.json');
-      vegaEmbed('#vis_pyramid', 'pyramid.vg.json');
+      vegaEmbed('#map', 'main_map.vg.json');
+      vegaEmbed('#scatter', 'scatter.vg.json');
+      vegaEmbed('#top10_bar', 'top10_bar.vg.json');
+      vegaEmbed('#pyramid', 'pyramid.vg.json');
+      vegaEmbed('#line', 'line.vg.json');
     </script>
 
 </body>
