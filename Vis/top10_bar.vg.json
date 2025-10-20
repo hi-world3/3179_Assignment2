@@ -61,9 +61,7 @@
     "x": {
       "field": "selectedValue",
       "type": "quantitative",
-      "title": {
-        "expr": "'Number of ' + category_select"
-      }
+      "title": "Number of people"
     },
     "color": {
       "condition": { "test": "category_select === 'Births'", "value": "#2166ac" },
