@@ -2,85 +2,59 @@
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "title": "Top 10 LGAs by Selected Category (2023)",
   "width": 320,
-  "height":200,
+  "height": 200,
   "data": {
     "url": "vic_birth_death.csv",
-    "format": {
-      "parse": {
-        "Births": "number",
-        "Deaths": "number",
-        "Year": "number"
-      }
-    }
+    "format": { "parse": { "Births": "number", "Deaths": "number", "Year": "number" } }
   },
   "params": [
     {
       "name": "category_select",
       "value": "Births",
-      "bind": {
-        "input": "select",
-        "options": ["Births", "Deaths"],
-        "name": "Select Category: "
-      }
+      "bind": { "input": "select", "options": ["Births","Deaths"], "name": "Select Category: " }
     }
   ],
   "transform": [
+    { "filter": "datum.Year == 2023" },
+    { "calculate": "datum[category_select]", "as": "selectedValue" },
     {
-      "filter": "datum.Year == 2023"
+      "window": [{ "op": "rank", "as": "rank" }],
+      "sort": [{ "field": "selectedValue", "order": "descending" }]
     },
-    {
-      "calculate": "datum[category_select]",
-      "as": "selectedValue"
-    },
-    {
-      "window": [
-        {
-          "op": "rank",
-          "as": "rank"
-        }
-      ],
-      "sort": [
-        {
-          "field": "selectedValue",
-          "order": "descending"
-        }
-      ]
-    },
-    {
-      "filter": "datum.rank <= 10"
-    }
+    { "filter": "datum.rank <= 10" }
   ],
-  "mark": "bar",
-  "encoding": {
-    "y": {
-      "field": "LGA",
-      "type": "nominal",
-      "sort": "-x",
-      "title": null
-    },
-    "x": {
-      "field": "selectedValue",
-      "type": "quantitative",
-      "title": "Number of people"
-<<<<<<< HEAD
-=======
-
->>>>>>> cc48273917c26a0c44a8ee468ffa71969581fe8a
-    },
-    "color": {
-      "condition": { "test": "category_select === 'Births'", "value": "#2166ac" },
-      "value": "#b2182b"
-    },
-    "tooltip": [
-      {
-        "field": "LGA",
-        "type": "nominal"
-      },
-      {
-        "field": "selectedValue",
-        "type": "quantitative",
-        "title": "Number"
+  "layer": [
+    {
+      "mark": "bar",
+      "encoding": {
+        "y": { "field": "LGA", "type": "nominal", "sort": "-x", "title": null },
+        "x": {
+          "field": "selectedValue",
+          "type": "quantitative",
+          "title": "Number",                 
+          "axis": { "format": ",.0f" }       
+        },
+        "color": {
+          "condition": { "test": "category_select === 'Births'", "value": "#2166ac" },
+          "value": "#b2182b"
+        },
+        "tooltip": [
+          { "field": "LGA", "type": "nominal" },
+          { "field": "selectedValue", "type": "quantitative", "title": "Number", "format": ",.0f" }
+        ]
       }
-    ]
-  }
+    },
+    {
+      "mark": { "type": "text", "align": "left", "baseline": "middle", "dx": 4, "fontSize": 10 },
+      "encoding": {
+        "y": { "field": "LGA", "type": "nominal", "sort": "-x" },
+        "x": { "field": "selectedValue", "type": "quantitative" },
+        "text": { "field": "selectedValue", "type": "quantitative", "format": ",.0f" },
+        "color": {
+          "condition": { "test": "category_select === 'Births'", "value": "#1f3f6e" },
+          "value": "#7a1b1b"
+        }
+      }
+    }
+  ]
 }
