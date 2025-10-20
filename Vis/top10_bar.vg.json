@@ -62,6 +62,10 @@
       "field": "selectedValue",
       "type": "quantitative",
       "title": "Number of people"
+<<<<<<< HEAD
+=======
+
+>>>>>>> cc48273917c26a0c44a8ee468ffa71969581fe8a
     },
     "color": {
       "condition": { "test": "category_select === 'Births'", "value": "#2166ac" },
