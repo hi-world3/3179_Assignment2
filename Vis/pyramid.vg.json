@@ -29,7 +29,7 @@
       "field": "plot_population",
       "type": "quantitative",
       "title": "Population",
-      "axis": {"labelExpr": "abs(datum.value)", "format": "s", "grid": false},
+      "axis": {"labelExpr": "abs(datum.value)", "grid": false},
       "scale": {"domain": [-50000, 50000]}
     },
     "color": {
